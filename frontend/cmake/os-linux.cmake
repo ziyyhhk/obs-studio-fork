@@ -90,7 +90,7 @@ macro(obs_frontend_platform_sources)
     string(
       REPLACE
       "https://github.com/obsproject/obs-studio/releases/tag/${OBS_RUST_VERSION}"
-      "https://github.com/obs-rust/obs-studio/releases/tag/obs-studio-rust-v${OBS_RUST_VERSION}"
+      "https://github.com/ziyyhhk/obs-studio-fork/releases/tag/v${OBS_RUST_VERSION}"
       _obs_metainfo
       "${_obs_metainfo}"
     )

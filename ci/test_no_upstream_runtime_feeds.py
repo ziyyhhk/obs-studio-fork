@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+﻿#!/usr/bin/env -S uv run --script
 """OBS-Studio-Rust keeps only the obsproject.com URLs it has decided to keep (#1732).
 
 What's New reads obs-rust's release feed (#1882) and the About
@@ -20,7 +20,7 @@ SOURCE_SUFFIXES = {".c", ".h", ".cpp", ".hpp", ".mm", ".cmake", ".txt", ".ui", "
 
 # url -> reason it stays. Runtime data feeds first, then static links.
 # What's New reads the obs-rust release assets, like the update feeds (#1882).
-WHATSNEW_FEED = "https://github.com/obs-rust/obs-studio/releases/latest/download/whatsnew.json"
+WHATSNEW_FEED = "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/whatsnew.json"
 # Help -> Discord opens the OBS Rust server, as the README does (#2097).
 DISCORD_INVITE = "https://discord.gg/6MWWX4x9pf"
 

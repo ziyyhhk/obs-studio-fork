@@ -1,4 +1,4 @@
-# Rust implementation release criteria
+﻿# Rust implementation release criteria
 
 This is the decision for #141. A port is **complete** when the applicable
 four testing tiers in [testing-policy.md](testing-policy.md) pass. It is
@@ -97,7 +97,7 @@ The bench profile is opt-level 3 for the Rust, as the shipped `release` static
 library is, but the oracle's C is clamped to the level the shipped libobs C
 gets (`-O2 -g` for GCC/Clang, `/O2` for MSVC; `rust/obs-c-oracle/build.rs`).
 A `-O3` oracle vectorized audio loops that the shipped C leaves scalar, so a
-baseline taken without the clamp made the Rust look 3–4× faster than the C
+baseline taken without the clamp made the Rust look 3â€“4Ã— faster than the C
 users run (#3127). `-ffp-contract=off` stays: Tier 3 compares bits with the
 Rust, which never fuses, and a fused oracle would differ on arm64. The shipped
 macOS arm64 C does fuse `a * b + c`, so a small shipped-C advantage there is
@@ -274,7 +274,7 @@ The `certify` job accepts only a published `obs-studio-rust-v*` release
 - the `release-rust.yaml` run that published it (the newest run for the
   tag's commit whose "Publish pre-release" job succeeded) concluded success,
   with every job successful. Only the certify job and a reusable workflow's
-  own jobs (`Release gate 🚦 / ...`, `AppImage 📦 / ...`) may be skipped;
+  own jobs (`Release gate ðŸš¦ / ...`, `AppImage ðŸ“¦ / ...`) may be skipped;
 - the release has been out at least `min_age_days` days (default 2), so a
   daily gets two days of use as a beta first. For an emergency,
   `-f min_age_days=0` skips the age check and logs a warning.
@@ -286,7 +286,7 @@ the Windows `manifest.json` (ZIP URL, SHA-256 and size) and `branches.json`,
 both with `.sig` files signed by `OBS_RUST_UPDATE_RSA_PRIVATE_KEY`. The job
 uploads them to the release, and only then clears the pre-release flag and
 marks it Latest. Both updaters read
-`https://github.com/obs-rust/obs-studio/releases/latest/download/`, which
+`https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/`, which
 GitHub resolves to the newest full release. Certify a build only after a
 maintainer has run it. Certifying an older release makes it Latest again,
 but an app newer than that release won't downgrade.

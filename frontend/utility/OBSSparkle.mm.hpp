@@ -1,4 +1,4 @@
-#include "frontend/build/frontend-sparkle-arc-mm.pch.hpp"
+﻿#include "frontend/build/frontend-sparkle-arc-mm.pch.hpp"
 
 OBSSparkle::OBSSparkle(const char *branch, QAction *checkForUpdatesAction)
 {
@@ -8,7 +8,7 @@ OBSSparkle::OBSSparkle(const char *branch, QAction *checkForUpdatesAction)
 
 		if (os_get_emulation_status()) {
 			updaterDelegate.feedUrl =
-				@"https://github.com/obs-rust/obs-studio/releases/latest/download/updates_arm64_v2.xml";
+				@"https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/updates_arm64_v2.xml";
 		} else {
 			updaterDelegate.feedUrl = nil;
 		}

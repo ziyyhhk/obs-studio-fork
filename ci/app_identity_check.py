@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+﻿#!/usr/bin/env -S uv run --script
 """Check the installed Rust app identity in an AppDir, Debian package, or bundle."""
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from pathlib import Path
 APP_ID = "io.github.obs_rust.OBSStudioRust"
 GUI = "obs-studio-rust-gui"
 # obs-rust's Sparkle feed (the latest certified release) and EdDSA key; release-rust.yaml's certify job writes the feed.
-UPDATE_FEED_PREFIX = "https://github.com/obs-rust/obs-studio/releases/latest/download/"
+UPDATE_FEED_PREFIX = "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/"
 SPARKLE_PUBLIC_KEY = "x7PaevvHxyhTaZdEFDhjr6+SqKf631gWXuIHowm6D3I="
 
 

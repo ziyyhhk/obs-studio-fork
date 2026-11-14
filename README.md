@@ -39,7 +39,7 @@ the unmodified C implementation, including NaN behaviour.
 
 ## Install (Windows, unsigned)
 
-1. MSI: run OBS-Studio-Rust-0.1.1-windows-x64.msi. It is branded
+1. MSI: run OBS-Studio-Rust-0.1.2-windows-x64.msi. It is branded
    OBS-Studio-Rust BETA, and it installs beside official OBS Studio. It is
    unsigned, so Windows SmartScreen warns on first launch. Choose
    More info, then Run anyway. Or right click the file, open Properties,

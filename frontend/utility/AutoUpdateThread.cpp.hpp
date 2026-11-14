@@ -1,4 +1,4 @@
-#include "frontend/build/frontend-windows-autoupdatethread.pch.hpp"
+﻿#include "frontend/build/frontend-windows-autoupdatethread.pch.hpp"
 
 /* OBS-Studio-Rust updates only from obs-rust releases (#1729, #1736): certified
  * ones on the default "stable" branch, or daily ones on the opt-in "nightly"
@@ -13,11 +13,11 @@
  * installer in frontend/updater/ only speaks upstream's CDN. */
 
 #ifndef WIN_UPDATE_FEED_URL
-#define WIN_UPDATE_FEED_URL "https://github.com/obs-rust/obs-studio/releases/latest/download/"
+#define WIN_UPDATE_FEED_URL "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/"
 #endif
 
 #ifndef WIN_RELEASE_DOWNLOAD_URL
-#define WIN_RELEASE_DOWNLOAD_URL "https://github.com/obs-rust/obs-studio/releases/download/"
+#define WIN_RELEASE_DOWNLOAD_URL "https://github.com/ziyyhhk/obs-studio-fork/releases/download/"
 #endif
 
 #ifndef WIN_DEFAULT_BRANCH
@@ -81,7 +81,7 @@ static void ParseObsRustManifest(const string &text, ObsRustRelease &out)
 	out.sha256 = zip.at("sha256").get<string>();
 	out.size = zip.at("size").get<uint64_t>();
 
-	if (!ObsRustVersionIsValid(out.version) || out.tag != "obs-studio-rust-v" + out.version) {
+	if (!ObsRustVersionIsValid(out.version) || (out.tag != "obs-studio-rust-v" + out.version && out.tag != "v" + out.version)) {
 		throw strprintf("Invalid version in update manifest: %s (%s)", out.version.c_str(), out.tag.c_str());
 	}
 	string prefix = WIN_RELEASE_DOWNLOAD_URL + out.tag + "/";

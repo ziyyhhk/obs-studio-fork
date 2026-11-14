@@ -68,8 +68,10 @@ void OBSAbout::ShowAbout()
 	OBSBasic *main = OBSBasic::Get();
 
 	if (main->patronJson.empty()) {
-		ui->textBrowser->setHtml("<p><a href=\"https://github.com/obs-rust/obs-studio\">"
-					 "https://github.com/obs-rust/obs-studio</a></p>");
+		ui->textBrowser->setHtml("<p><a href=\"https://github.com/ziyyhhk/obs-studio-fork\">"
+					"https://github.com/ziyyhhk/obs-studio-fork</a></p>"
+					"<p>Fork of <a href=\"https://github.com/obsproject/obs-studio\">OBS Studio</a> and "
+					"<a href=\"https://github.com/obs-rust/obs-studio\">obs-rust/obs-studio</a></p>");
 		return;
 	}
 

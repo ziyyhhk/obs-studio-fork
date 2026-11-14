@@ -1,11 +1,11 @@
-name: Fork release (unsigned)
+﻿name: Fork release (unsigned)
 
 # Personal fork build of OBS-Studio-Rust (the Rust rewrite of OBS Studio).
-# Builds the Windows x64 app on a hosted runner and attaches the portable
-# ZIP and the BETA MSI to a GitHub release for the tag it ships.
+# Builds Windows x64 on a hosted runner and attaches the portable ZIP, the
+# BETA MSI, the signed update feed, and the AppImage-eligible pieces.
 #
 # This fork does not start CI on push events, so trigger it by dispatch:
-#   gh workflow run release.yml --ref master -f tag=v0.1.0
+#   gh workflow run release.yml --ref master -f tag=v0.1.2
 # (the release tag is created if it does not exist; a `push` of a
 # `v*.*.*` tag also works where push events are enabled)
 #
@@ -19,9 +19,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag to publish, e.g. v0.1.0 (created if it does not exist)'
+        description: 'Release tag to publish, e.g. v0.1.2 (created if it does not exist)'
         required: true
-        default: 'v0.1.0'
+        default: 'v0.1.2'
 
 permissions:
   contents: write
@@ -142,17 +142,40 @@ jobs:
         uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
         with:
           tag_name: ${{ inputs.tag || github.ref_name }}
-          name: OBS-Studio-Rust fork (ziyyhhk) ${{ inputs.tag || github.ref_name }} — unsigned
+          name: OBS-Studio-Rust fork (ziyyhhk) ${{ inputs.tag || github.ref_name }} - unsigned
           prerelease: true
           files: dist/*
           body: |
-            Personal fork build of OBS-Studio-Rust, the Rust rewrite of OBS Studio. NOT the official obs-rust project; not affiliated with it or with the OBS Project. FINAL update — this fork is discontinued; see the README. Windows x64 portable ZIP and BETA MSI installer. Unsigned, so Windows SmartScreen will warn on first run.
+            Personal fork build of OBS-Studio-Rust, the Rust rewrite of OBS Studio. NOT the official obs-rust project; not affiliated with it or with the OBS Project. FINAL update - this fork is discontinued; see the README. Windows x64 portable ZIP and BETA MSI installer. Unsigned, so Windows SmartScreen will warn on first run. The in-app update check reads this repo's releases (signed manifest), not the upstream project's.
 
-            Includes the fork-local optimizations: SSE2 UYVX packer kernels (~2.3x on that kernel) and the AVX2 sample_peak volmeter dispatch (both bit-exact against the C oracle). Recording CPU is unchanged (encoder-bound); RAM benefit inherited from upstream.
+            Includes the fork-local optimizations: SSE2 UYVX packer kernels (~2.3x on that kernel) and the AVX2 sample_peak volmeter dispatch (both bit-exact against the C oracle). Recording CPU is unchanged (encoder-bound); RAM benefit inherited from upstream. Original upstream repos are credited in the README (obs-rust/obs-studio, obsproject/obs-studio).
 
             Installing
 
-            - MSI: run OBS-Studio-Rust-<version>-windows-x64.msi and pick an install folder.
+            - MSI: run OBS-Studio-Rust-0.1.2-windows-x64.msi and pick an install folder.
             - ZIP: unpack anywhere and start bin\64bit\obs64.exe (SmartScreen: More info, Run anyway).
             - Settings live in %APPDATA%\obs-studio-rust and are copied from a normal upstream OBS setup on first launch; nothing overwrites your existing install.
             - The Audio Mixer (in-source dB meters) is already included: View > Docks > Audio Mixer.
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+
+      - name: Build the in-app update feed
+        run: |
+          set -e
+          umask 077
+          cd dist
+          sha256sum OBS-Studio-Rust-*-windows-x64.zip > SHA256SUMS
+          cd ..
+          printf '%s' "$FORK_UPDATE_RSA_KEY" > /tmp/fork-update-key.pem
+          uv run --script ci/fork_update_feed.py --tag "${{ inputs.tag || github.ref_name }}" --assets dist --rsa-key /tmp/fork-update-key.pem --out feed
+          shred -u /tmp/fork-update-key.pem || rm -f /tmp/fork-update-key.pem
+        env:
+          FORK_UPDATE_RSA_KEY: ${{ secrets.FORK_UPDATE_RSA_KEY }}
+
+      - name: Upload the update feed
+        run: |
+          TAG="${{ inputs.tag || github.ref_name }}"
+          gh release upload "$TAG" feed/manifest.json feed/manifest.json.sig feed/branches.json feed/branches.json.sig --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+﻿#!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.11"
 # dependencies = ["cryptography>=50.0.2,<51"]
@@ -12,7 +12,7 @@
 
 release-rust.yaml's certify job runs this, uploads `feed/*` as assets of the
 release, and only then makes it a full release marked Latest. The apps read
-https://github.com/obs-rust/obs-studio/releases/latest/download/<file>, which
+https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/<file>, which
 GitHub resolves to the newest full release, never a pre-release (daily beta).
 
 <dir> holds the release's assets and its SHA256SUMS; every file used is checked
@@ -31,7 +31,7 @@ Sparkle's own tool). Outputs:
 daily run to upload to the rolling "continuous" pre-release: the appcast items
 carry <sparkle:channel>nightly</sparkle:channel> and manifest.json says
 "channel": "nightly". Apps on the nightly update branch read it from
-https://github.com/obs-rust/obs-studio/releases/download/continuous/<file>.
+https://github.com/ziyyhhk/obs-studio-fork/releases/download/continuous/<file>.
 
 .sig files are hex RSA PKCS#1 v1.5 SHA-512 signatures, as
 frontend/utility/WhatsNewInfoThread.cpp.hpp's FetchAndVerifyFile checks them
@@ -175,8 +175,8 @@ def skippable(job: dict) -> bool:
     """A skip that a successful release run has by design.
 
     The certify job skips on every daily run, and a reusable workflow's own
-    jobs ("Release gate 🚦 / Flatpak 📦", "AppImage 📦 / Publish to GitHub
-    Releases 🚀") skip by their own conditions, decided by their caller job
+    jobs ("Release gate ðŸš¦ / Flatpak ðŸ“¦", "AppImage ðŸ“¦ / Publish to GitHub
+    Releases ðŸš€") skip by their own conditions, decided by their caller job
     which must itself succeed. A skipped top-level job (a build, a smoke test,
     the gate) means the release was not fully verified.
     """

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+﻿#!/usr/bin/env -S uv run --script
 """OBS-Studio-Rust updates only from certified obs-rust releases, never upstream.
 
 Usage:
@@ -7,7 +7,7 @@ Usage:
 Upstream's Sparkle feed and key, and the Windows updater's obsproject.com
 manifests, made OBS-Studio-Rust offer and accept upstream OBS Studio as an
 update (#1729, #1730, #1736). Both updaters stay on and read obs-rust's feed:
-https://github.com/obs-rust/obs-studio/releases/latest/download/..., which
+https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/..., which
 GitHub resolves to the newest full (certified) release only. ci/update_feed.py
 writes those assets when a maintainer certifies a daily build (see
 ci/test_update_feed.py). Metadata is RSA-signed with obs-rust's key
@@ -24,7 +24,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 UPSTREAM_KEY = "HQ5/Ba9VHOuEWaM0jtVjZzgHKFJX9YTl+HNVpgNF0iM="
-FEED_PREFIX = "https://github.com/obs-rust/obs-studio/releases/latest/download/"
+FEED_PREFIX = "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/"
 OBS_RUST_SPARKLE_KEY = "x7PaevvHxyhTaZdEFDhjr6+SqKf631gWXuIHowm6D3I="
 # First base64 line of obs-rust's RSA-4096 update metadata key (OBSPublicRSAKey.pem).
 OBS_RUST_RSA_KEY_LINE = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAramOrg+JnU+xAYh7WYbU"
@@ -40,7 +40,7 @@ FEED_SOURCES = UPDATER_SOURCES + (
     "ci/update_feed.py",
 )
 OBS_RUST = "https://github.com/obs-rust/obs-studio/"
-NIGHTLY_PREFIX = "https://github.com/obs-rust/obs-studio/releases/download/continuous/"
+NIGHTLY_PREFIX = "https://github.com/ziyyhhk/obs-studio-fork/releases/download/continuous/"
 # XML namespace names, not fetched.
 NOT_FEEDS = {"http://www.andymatuschak.org/xml-namespaces/sparkle"}
 URL_RE = re.compile(r"https?://[^\s\"'<>)\\]+")
@@ -190,7 +190,7 @@ class NoUpstreamUpdaterTests(unittest.TestCase):
             ("https://obsproject.com/osx_update/updates_arm64_v2.xml", UPSTREAM_KEY),
             (FEED_PREFIX + "updates_arm64_v2.xml", UPSTREAM_KEY),
             (FEED_PREFIX + "updates_$(ARCHS)_v2.xml", OBS_RUST_SPARKLE_KEY),
-            ("https://github.com/obs-rust/obs-studio/releases/download/update-feed/updates_arm64_v2.xml",
+            ("https://github.com/ziyyhhk/obs-studio-fork/releases/download/update-feed/updates_arm64_v2.xml",
              OBS_RUST_SPARKLE_KEY),
             ("", ""),
         ):

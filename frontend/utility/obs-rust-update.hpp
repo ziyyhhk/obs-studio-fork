@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 /* OBS-Studio-Rust release versions (<MAJOR>.<MINOR>.<PATCH>[-<pre>], as
  * cmake/common/versionconfig.cmake accepts them), compared with SemVer
@@ -126,8 +126,8 @@ inline int CompareObsRustVersions(const std::string &a, const std::string &b)
 /* Update channels (#1759). "stable" reads the certified feed on the Latest
  * release; "nightly" reads the feed the daily run writes onto the rolling
  * "continuous" pre-release. Any other UpdateBranch falls back to stable. */
-#define OBS_RUST_STABLE_FEED_URL "https://github.com/obs-rust/obs-studio/releases/latest/download/"
-#define OBS_RUST_NIGHTLY_FEED_URL "https://github.com/obs-rust/obs-studio/releases/download/continuous/"
+#define OBS_RUST_STABLE_FEED_URL "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/"
+#define OBS_RUST_NIGHTLY_FEED_URL "https://github.com/ziyyhhk/obs-studio-fork/releases/download/continuous/"
 #define OBS_RUST_STABLE_BRANCH "stable"
 #define OBS_RUST_NIGHTLY_BRANCH "nightly"
 

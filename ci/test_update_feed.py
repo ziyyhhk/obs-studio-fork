@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+﻿#!/usr/bin/env -S uv run --script
 """The in-app updaters offer only certified obs-rust releases.
 
 Usage:
@@ -9,7 +9,7 @@ maintainer certifies one by dispatching the workflow with `certify=<tag>`: that
 job runs ci/update_feed.py to write the Sparkle appcasts, the Windows update
 manifest and branches.json (RSA-signed) as assets of that release, then makes
 it a full release marked Latest. The updaters read
-https://github.com/obs-rust/obs-studio/releases/latest/download/..., which
+https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/..., which
 GitHub resolves to the newest full release only, so a daily or nightly build is
 never offered.
 """
@@ -34,7 +34,7 @@ RELEASE = ROOT / ".github" / "workflows" / "release-rust.yaml"
 VERSION_HEADER = ROOT / "frontend" / "utility" / "obs-rust-update.hpp"
 TAG = "obs-studio-rust-v0.1.0-beta.20261020"
 VERSION = "0.1.0-beta.20261020"
-DOWNLOAD = f"https://github.com/obs-rust/obs-studio/releases/download/{TAG}/"
+DOWNLOAD = f"https://github.com/ziyyhhk/obs-studio-fork/releases/download/{TAG}/"
 SPARKLE = "http://www.andymatuschak.org/xml-namespaces/sparkle"
 UV = shutil.which("uv")
 CRYPTO = "cryptography>=50.0.2,<51"
@@ -166,7 +166,7 @@ class UpdateFeedScriptTests(unittest.TestCase):
         manifest = json.loads((self.out / "manifest.json").read_text())
         self.assertEqual(manifest["version"], VERSION)
         self.assertEqual(manifest["tag"], TAG)
-        self.assertIn(f"https://github.com/obs-rust/obs-studio/releases/tag/{TAG}", manifest["notes"])
+        self.assertIn(f"https://github.com/ziyyhhk/obs-studio-fork/releases/tag/{TAG}", manifest["notes"])
         for arch in ("x64", "arm64"):
             with self.subTest(arch=arch):
                 name = f"OBS-Studio-Rust-{VERSION}-windows-{arch}.zip"
@@ -237,16 +237,16 @@ NOW = "2026-10-22T09:00:00Z"
 
 def green_run(run_id: int = 100, sha: str = SHA, event: str = "schedule") -> dict:
     jobs = [
-        "Check version 🏷️",
-        "Build ubuntu-26.04 x86_64 🧱",
-        "Build windows-2025 x64 🧱",
-        "Build macos-26 arm64 🧱",
-        "AppImage 📦",
-        "Native macOS arm64 DMG startup 🧪",
-        "Release gate 🚦",
-        "Publish pre-release 🚀",
-        "Release gate 🚦 / Fast Gate ⚡",
-        "Continuous AppImage ♻️",
+        "Check version ðŸ·ï¸",
+        "Build ubuntu-26.04 x86_64 ðŸ§±",
+        "Build windows-2025 x64 ðŸ§±",
+        "Build macos-26 arm64 ðŸ§±",
+        "AppImage ðŸ“¦",
+        "Native macOS arm64 DMG startup ðŸ§ª",
+        "Release gate ðŸš¦",
+        "Publish pre-release ðŸš€",
+        "Release gate ðŸš¦ / Fast Gate âš¡",
+        "Continuous AppImage â™»ï¸",
     ]
     return {
         "id": run_id,
@@ -257,8 +257,8 @@ def green_run(run_id: int = 100, sha: str = SHA, event: str = "schedule") -> dic
         "jobs": [{"name": name, "conclusion": "success"} for name in jobs]
         # Skipped by design: a reusable workflow's own job, and certify itself.
         + [
-            {"name": "AppImage 📦 / Publish to GitHub Releases 🚀", "conclusion": "skipped"},
-            {"name": "Certify release 🏅", "conclusion": "skipped"},
+            {"name": "AppImage ðŸ“¦ / Publish to GitHub Releases ðŸš€", "conclusion": "skipped"},
+            {"name": "Certify release ðŸ…", "conclusion": "skipped"},
         ],
     }
 
@@ -306,13 +306,13 @@ class CheckCertifiableTests(unittest.TestCase):
 
     def test_refuses_when_any_job_of_the_producing_run_did_not_succeed(self) -> None:
         for name, conclusion in (
-            ("Native macOS arm64 DMG startup 🧪", "failure"),
-            ("Build windows-2025 x64 🧱", "cancelled"),
-            ("AppImage 📦", "skipped"),
-            ("Continuous AppImage ♻️", "timed_out"),
-            ("Release gate 🚦", None),
-            ("Release gate 🚦", "skipped"),
-            ("Release gate 🚦 / Fast Gate ⚡", "failure"),
+            ("Native macOS arm64 DMG startup ðŸ§ª", "failure"),
+            ("Build windows-2025 x64 ðŸ§±", "cancelled"),
+            ("AppImage ðŸ“¦", "skipped"),
+            ("Continuous AppImage â™»ï¸", "timed_out"),
+            ("Release gate ðŸš¦", None),
+            ("Release gate ðŸš¦", "skipped"),
+            ("Release gate ðŸš¦ / Fast Gate âš¡", "failure"),
         ):
             with self.subTest(name=name, conclusion=conclusion):
                 run = green_run()
@@ -353,7 +353,7 @@ class CheckCertifiableTests(unittest.TestCase):
             "event": "workflow_dispatch",
             "status": "in_progress",
             "conclusion": None,
-            "jobs": [{"name": "Check version 🏷️", "conclusion": "skipped"}, {"name": "Certify release 🏅", "conclusion": None}],
+            "jobs": [{"name": "Check version ðŸ·ï¸", "conclusion": "skipped"}, {"name": "Certify release ðŸ…", "conclusion": None}],
         }
         self.assertEqual(self.feed.check_certifiable(facts(runs=[green_run(), certify]), NOW, 2), [])
 
@@ -537,8 +537,8 @@ class NightlyFeedUrlTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("c++"), "a C++ compiler is required")
     def test_feed_url_per_branch(self) -> None:
-        stable = "https://github.com/obs-rust/obs-studio/releases/latest/download/"
-        nightly = "https://github.com/obs-rust/obs-studio/releases/download/continuous/"
+        stable = "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/"
+        nightly = "https://github.com/ziyyhhk/obs-studio-fork/releases/download/continuous/"
         cases = [
             (stable + "manifest.json", "stable", stable + "manifest.json"),
             (stable + "manifest.json", "nightly", nightly + "manifest.json"),

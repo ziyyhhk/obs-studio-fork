@@ -1,15 +1,15 @@
-#include "frontend/build/frontend-whatsnew.pch.hpp"
+﻿#include "frontend/build/frontend-whatsnew.pch.hpp"
 
 #ifndef MAC_WHATSNEW_URL
-#define MAC_WHATSNEW_URL "https://github.com/obs-rust/obs-studio/releases/latest/download/whatsnew.json"
+#define MAC_WHATSNEW_URL "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/whatsnew.json"
 #endif
 
 #ifndef WIN_WHATSNEW_URL
-#define WIN_WHATSNEW_URL "https://github.com/obs-rust/obs-studio/releases/latest/download/whatsnew.json"
+#define WIN_WHATSNEW_URL "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/whatsnew.json"
 #endif
 
 #ifndef LINUX_WHATSNEW_URL
-#define LINUX_WHATSNEW_URL "https://github.com/obs-rust/obs-studio/releases/latest/download/whatsnew.json"
+#define LINUX_WHATSNEW_URL "https://github.com/ziyyhhk/obs-studio-fork/releases/latest/download/whatsnew.json"
 #endif
 
 /* macOS and Windows set WHATSNEW_URL to their macro above in
