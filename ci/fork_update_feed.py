@@ -81,7 +81,12 @@ def build(tag: str, assets: Path, key_pem: bytes, out: Path, maybe_tag: str = "v
     windows: dict[str, dict] = {}
     for arch in WINDOWS_ARCHES:
         name = f"OBS-Studio-Rust-{version}-windows-{arch}.zip"
-        path = checked(assets, sums, name)
+        path = assets / name
+        if not path.is_file():
+            continue
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        if sums.get(name) != digest:
+            raise FeedError(f"{name} does not match SHA256SUMS")
         windows[arch] = {
             "name": name,
             "url": f"{REPO}/releases/download/{tag}/{name}",
