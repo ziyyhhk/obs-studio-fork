@@ -526,6 +526,7 @@ bool OBSApp::MigrateRustConfiguration()
 			roots.push_back(selected);
 			locations.emplace_back(key, std::move(selected));
 		}
+		std::vector<fs::path> skippedFiles;
 		MigrateAppConfigLocations(base, roots, [&](const fs::path &copy) {
 			ConfigFile isolated;
 			if (isolated.Open((copy / "global.ini").u8string().c_str(), CONFIG_OPEN_ALWAYS) !=
@@ -539,7 +540,13 @@ bool OBSApp::MigrateRustConfiguration()
 			if (isolated.SaveSafe("tmp") != CONFIG_SUCCESS) {
 				throw std::runtime_error("Unable to save the independent settings locations");
 			}
-		});
+		}, &skippedFiles);
+		if (!skippedFiles.empty()) {
+			blog(LOG_WARNING,
+			     "Rust configuration migration skipped %zu volatile or locked files (for example '%s'); "
+			     "settings were imported and locked browser cache files are recreated on demand",
+			     skippedFiles.size(), skippedFiles.front().u8string().c_str());
+		}
 	} catch (const std::exception &error) {
 		OBSErrorBox(nullptr, "Rust configuration migration failed: %s. Original settings were preserved.",
 			    error.what());

@@ -24,6 +24,11 @@ folder, plug-in compatibility, and installs beside official OBS Studio.
    Roughly 1 to 3 percent on the audio meter path.
 3. Release tooling. A release.yml workflow that builds the Windows portable
    ZIP and BETA MSI on GitHub hosted runners and attaches them to a release.
+4. First-launch settings import that no longer aborts when the other app
+   holds a file. Browser caches and cookies are skipped as volatile (they
+   carry no user settings and can be gigabytes), any other locked file is
+   skipped with a warning instead of failing the import, and only the
+   global.ini anchor stays mandatory. v0.1.3.
 
 Both kernels are validated with the repo's parity tests, bit for bit against
 the unmodified C implementation, including NaN behaviour.
@@ -39,7 +44,7 @@ the unmodified C implementation, including NaN behaviour.
 
 ## Install (Windows, unsigned)
 
-1. MSI: run OBS-Studio-Rust-0.1.2-windows-x64.msi. It is branded
+1. MSI: run OBS-Studio-Rust-0.1.3-windows-x64.msi. It is branded
    OBS-Studio-Rust BETA, and it installs beside official OBS Studio. It is
    unsigned, so Windows SmartScreen warns on first launch. Choose
    More info, then Run anyway. Or right click the file, open Properties,

@@ -280,6 +280,7 @@ class ConfigMigrationTest(unittest.TestCase):
                 "locations",
                 "locations-existing",
                 "locations-failure",
+                "volatile",
             ):
                 with self.subTest(mode=mode):
                     completed = subprocess.run(

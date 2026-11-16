@@ -1,11 +1,11 @@
-﻿name: Fork release (unsigned)
+name: Fork release (unsigned)
 
 # Personal fork build of OBS-Studio-Rust (the Rust rewrite of OBS Studio).
 # Builds Windows x64 on a hosted runner and attaches the portable ZIP, the
 # BETA MSI, the signed update feed, and the AppImage-eligible pieces.
 #
 # This fork does not start CI on push events, so trigger it by dispatch:
-#   gh workflow run release.yml --ref master -f tag=v0.1.2
+#   gh workflow run release.yml --ref master -f tag=v0.1.3
 # (the release tag is created if it does not exist; a `push` of a
 # `v*.*.*` tag also works where push events are enabled)
 #
@@ -19,9 +19,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag to publish, e.g. v0.1.2 (created if it does not exist)'
+        description: 'Release tag to publish, e.g. v0.1.3 (created if it does not exist)'
         required: true
-        default: 'v0.1.2'
+        default: 'v0.1.3'
 
 permissions:
   contents: write
@@ -157,7 +157,7 @@ jobs:
 
             Installing
 
-            - MSI: run OBS-Studio-Rust-0.1.2-windows-x64.msi and pick an install folder.
+            - MSI: run OBS-Studio-Rust-0.1.3-windows-x64.msi and pick an install folder.
             - ZIP: unpack anywhere and start bin\64bit\obs64.exe (SmartScreen: More info, Run anyway).
             - Settings live in %APPDATA%\obs-studio-rust and are copied from a normal upstream OBS setup on first launch; nothing overwrites your existing install.
             - The Audio Mixer (in-source dB meters) is already included: View > Docks > Audio Mixer.

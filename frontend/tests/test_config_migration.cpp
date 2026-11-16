@@ -83,6 +83,24 @@ int main(int argc, char **argv)
 				"original selected config modified");
 			return 0;
 		}
+		if (mode == "volatile") {
+			write(source / "plugin_config/obs-browser/cef.123/Network/Cookies", "cookie");
+			write(source / "plugin_config/obs-browser/cef.123/Network/Cookies-journal", "cookie journal");
+			write(source / "plugin_config/obs-browser/cef.123/Cache/data_0", "cache");
+			write(source / "plugin_config/obs-browser/cef.123/cache_data/data_1", "cache");
+			write(source / "plugin_config/obs-browser/cef.123/Code Cache/js/0", "js");
+			write(source / "plugin_config/obs-browser/cef.123/GPUCache/0", "gpu");
+			write(source / "plugin_config/obs-browser/cef.123/GrShaderCache/0", "shader");
+			write(source / "plugin_config/obs-browser/cef.123/DawnCache/0", "dawn");
+			write(source / "plugin_config/obs-browser/cef.123/IndexedDB/db", "db");
+			write(source / "plugin_config/obs-browser/cef.123/Session Storage/1", "ss");
+			write(source / "plugin_config/obs-browser/cef.123/Service Worker/worker", "sw");
+			write(source / "plugin_config/obs-browser/cef.123/blob_storage/blob", "blob");
+			write(source / "plugin_config/obs-browser/cef.123/Crashpad/db", "crash");
+			write(source / "plugin_config/obs-browser/settings.ini", "[browser]\nkeep=1");
+			write(source / "plugin_config/obs-websocket/enabled.txt", "keep ws");
+			write(source / "plugin_config/obs-browser/not-a-cache/keep.txt", "keep me");
+		}
 		if (mode != "absent") {
 			write(source / "global.ini", "upstream global");
 			write(source / "user.ini", "upstream user");
@@ -136,6 +154,29 @@ int main(int argc, char **argv)
 			} else if (mode == "empty-custom") {
 				require(!fs::exists(destination / "basic/scenes"),
 					"empty custom root mixed with defaults");
+			} else if (mode == "volatile") {
+				const auto browser = destination / "plugin_config/obs-browser/cef.123";
+				require(!fs::exists(browser / "Network/Cookies"), "volatile cookie was imported");
+				require(!fs::exists(browser / "Network/Cookies-journal"),
+					"volatile cookie journal was imported");
+				require(!fs::exists(browser / "Cache"), "volatile cache was imported");
+				require(!fs::exists(browser / "cache_data"), "volatile cache_data was imported");
+				require(!fs::exists(browser / "Code Cache"), "volatile code cache was imported");
+				require(!fs::exists(browser / "GPUCache"), "volatile gpu cache was imported");
+				require(!fs::exists(browser / "GrShaderCache"), "volatile shader cache was imported");
+				require(!fs::exists(browser / "DawnCache"), "volatile dawn cache was imported");
+				require(!fs::exists(browser / "IndexedDB"), "volatile indexeddb was imported");
+				require(!fs::exists(browser / "Session Storage"), "volatile session storage was imported");
+				require(!fs::exists(browser / "Service Worker"),
+					"volatile service worker storage was imported");
+				require(!fs::exists(browser / "blob_storage"), "volatile blob storage was imported");
+				require(!fs::exists(browser / "Crashpad"), "volatile crashpad was imported");
+				require(read(destination / "plugin_config/obs-browser/settings.ini") == "[browser]\nkeep=1",
+					"browser plugin settings lost");
+				require(read(destination / "plugin_config/obs-websocket/enabled.txt") == "keep ws",
+					"websocket plugin settings lost");
+				require(read(destination / "plugin_config/obs-browser/not-a-cache/keep.txt") == "keep me",
+					"non-volatile plugin file skipped");
 			} else {
 				require(read(destination / "basic/scenes/original.json") == "upstream scene",
 					"scene missing");
